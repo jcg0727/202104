@@ -7,6 +7,7 @@ import kr.or.ddit.dto.MenuVO;
 
 public interface MenuService {
 	
+	
 
 	List<MenuVO> getMainMenuList()throws SQLException;
 	
@@ -16,4 +17,5 @@ public interface MenuService {
 	
 	MenuVO getMenuByMname(String mName)throws SQLException;
 
+	
 }

@@ -3,9 +3,6 @@ package kr.or.ddit.service;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-
 import kr.or.ddit.dao.MenuDAO;
 import kr.or.ddit.dto.MenuVO;
 
@@ -17,36 +14,21 @@ public class MenuServiceImpl implements MenuService {
 		this.menuDAO = menuDAO;
 	}
 
-	private SqlSessionFactory sqlSessionFactory;// = new OracleMyBatisSqlSessionFactory();
-
-	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-		this.sqlSessionFactory = sqlSessionFactory;
-	}
-
 	@Override
 	public List<MenuVO> getMainMenuList() throws SQLException {
 
 		List<MenuVO> menuList = null;
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
-			menuList = menuDAO.selectMainMenu(session);
-		} finally {
-			session.close();
-		}
+
+		menuList = menuDAO.selectMainMenu();
 
 		return menuList;
 	}
 
 	@Override
 	public List<MenuVO> getSubMenuList(String mCode) throws SQLException {
-
 		List<MenuVO> menuList = null;
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
-			menuList = menuDAO.selectSubMenu(session, mCode);
-		} finally {
-			session.close();
-		}
+
+		menuList = menuDAO.selectSubMenu(mCode);
 
 		return menuList;
 	}
@@ -55,12 +37,7 @@ public class MenuServiceImpl implements MenuService {
 	public MenuVO getMenuByMcode(String mCode) throws SQLException {
 		MenuVO menu = null;
 
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
-			menu = menuDAO.selectMenuByMcode(session, mCode);
-		} finally {
-			session.close();
-		}
+		menu = menuDAO.selectMenuByMcode(mCode);
 
 		return menu;
 	}
@@ -69,12 +46,7 @@ public class MenuServiceImpl implements MenuService {
 	public MenuVO getMenuByMname(String mName) throws SQLException {
 		MenuVO menu = null;
 
-		SqlSession session = sqlSessionFactory.openSession();
-		try {
-			menu = menuDAO.selectMenuByMname(session, mName);
-		} finally {
-			session.close();
-		}
+		menu = menuDAO.selectMenuByMname(mName);
 
 		return menu;
 	}
