@@ -27,7 +27,7 @@
 function subMenu(mCode){
 	//alert("function call sumMenu()"+mCode);	
 	if(mCode!="M000000"){
-		$.getJSON("/subMenu.do?mCode="+mCode,function(data){
+		$.getJSON("<%=request.getContextPath()%>/subMenu.do?mCode="+mCode,function(data){
 			//console.log(data);
 			printData(data,$('.subMenuList'),$('#subMenu-list-template'),'.subMenu');
 			
@@ -55,7 +55,7 @@ function goPage(url,mCode){
 	    location.hash = "#"+mCode;
 	}
 	  
-	$('iframe[name="ifr"]').attr("src",url);
+	$('iframe[name="ifr"]').attr("src","<%=request.getContextPath()%>"+url);
 }
 
 //handelbars printElement (args : data Array, appent target, handlebar template, remove class)
@@ -93,7 +93,5 @@ window.onload=function(){
 	subMenu('${menu.mcode}'.substring(0,3)+"0000");
 }
 </script>
-<kkk>
-	<h1>KKK</h1>
-<kkk>
+
 </body>
