@@ -6,48 +6,53 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
-import com.jsp.request.SearchCriteria;
-
+import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dto.ReplyVO;
 
 public class ReplyDAOImpl implements ReplyDAO {
 
-	@Override
-	public void insertReply(SqlSession session, ReplyVO reply) throws SQLException {
-		session.update("Reply-Mapper.insertReply", reply);
+	private SqlSession session;
+
+	public void setSqlSession(SqlSession session) {
+		this.session = session;
 	}
 
 	@Override
-	public void updateReply(SqlSession session, ReplyVO reply) throws SQLException {
+	public void insertReply(ReplyVO reply) throws SQLException {
+		session.update("Reply-Mapper.insertReply", reply);
+
+	}
+
+	@Override
+	public void updateReply(ReplyVO reply) throws SQLException {
 		session.update("Reply-Mapper.updateReply", reply);
 	}
 
 	@Override
-	public void deleteReply(SqlSession session, int rno) throws SQLException {
+	public void deleteReply(int rno) throws SQLException {
 		session.update("Reply-Mapper.deleteReply", rno);
-
 	}
 
 	@Override
-	public int selectReplySeqNextValue(SqlSession session) throws SQLException {
-		int rno = session.selectOne("Reply-Mapper.selectReplySeqNextValue");
-		return rno;
-	}
-
-	@Override
-	public List<ReplyVO> selectReplyListPage(SqlSession session, int bno, SearchCriteria cri) throws SQLException {
+	public List<ReplyVO> selectReplyListPage(int bno, SearchCriteria cri) throws SQLException {
 		int offset = cri.getStartRowNum();
 		int limit = cri.getPerPageNum();
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		
+
 		List<ReplyVO> replyList = session.selectList("Reply-Mapper.selectReplyList", bno, rowBounds);
 		return replyList;
 	}
 
 	@Override
-	public int countReply(SqlSession session, int bno) throws SQLException {
+	public int countReply(int bno) throws SQLException {
 		int count = session.selectOne("Reply-Mapper.countReply", bno);
 		return count;
+	}
+
+	@Override
+	public int selectReplySeqNextValue() throws SQLException {
+		int rno = (Integer) session.selectOne("Reply-Mapper.selectReplySeqNextValue");
+		return rno;
 	}
 
 }

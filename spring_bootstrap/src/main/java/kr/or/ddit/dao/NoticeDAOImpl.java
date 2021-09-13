@@ -6,14 +6,18 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
-import com.jsp.request.SearchCriteria;
-
+import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dto.NoticeVO;
 
 public class NoticeDAOImpl implements NoticeDAO {
 
+	private SqlSession session;
+	public void setSqlSession(SqlSession session) {
+		this.session=session;
+	}
+	
 	@Override
-	public List<NoticeVO> selectSearchNoticeList(SqlSession session, SearchCriteria cri) throws SQLException {
+	public List<NoticeVO> selectSearchNoticeList( SearchCriteria cri) throws SQLException {
 		
 		int offset=cri.getStartRowNum();
 		int limit=cri.getPerPageNum();		
@@ -26,42 +30,42 @@ public class NoticeDAOImpl implements NoticeDAO {
 	}
 
 	@Override
-	public int selectSearchNoticeListCount(SqlSession session, SearchCriteria cri) throws SQLException {
+	public int selectSearchNoticeListCount( SearchCriteria cri) throws SQLException {
 		int count=session.selectOne("Notice-Mapper.selectSearchNoticeListCount",cri);
 		return count;
 	}
 
 	@Override
-	public NoticeVO selectNoticeByNno(SqlSession session, int nno) throws SQLException {
+	public NoticeVO selectNoticeByNno( int nno) throws SQLException {
 		NoticeVO notice=session.selectOne("Notice-Mapper.selectNoticeByNno",nno);
 		return notice;
 	}
 
 	@Override
-	public void increaseViewCount(SqlSession session, int nno) throws SQLException {
+	public void increaseViewCount( int nno) throws SQLException {
 		session.update("Notice-Mapper.increaseViewCount",nno);
 		
 	}
 
 	@Override
-	public int selectNoticeSequenceNextValue(SqlSession session) throws SQLException {
+	public int selectNoticeSequenceNextValue() throws SQLException {
 		int seq_num=session.selectOne("Notice-Mapper.selectNoticeSequenceNextValue");
 		return seq_num;
 	}
 
 	@Override
-	public void insertNotice(SqlSession session, NoticeVO notice) throws SQLException {
+	public void insertNotice( NoticeVO notice) throws SQLException {
 		session.update("Notice-Mapper.insertNotice",notice);
 		
 	}
 	
 	@Override
-	public void updateNotice(SqlSession session,NoticeVO notice) throws SQLException {
+	public void updateNotice(NoticeVO notice) throws SQLException {
 		session.update("Notice-Mapper.updateNotice",notice);
 	}
 
 	@Override
-	public void deleteNotice(SqlSession session,int nno) throws SQLException {
+	public void deleteNotice(int nno) throws SQLException {
 		session.update("Notice-Mapper.deleteNotice",nno);
 	}
 }
