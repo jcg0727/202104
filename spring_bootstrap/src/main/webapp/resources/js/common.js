@@ -25,6 +25,8 @@ function list_go(page,url){
 	
 	var jobForm=$('#jobForm');
 	
+	if(!page) page=1;
+	
 	jobForm.find("[name='page']").val(page);
 	jobForm.find("[name='perPageNum']").val($('select[name="perPageNum"]').val());
 	jobForm.find("[name='searchType']").val($('select[name="searchType"]').val());

@@ -7,12 +7,20 @@
 <c:set var="pageMaker" value="${dataMap.pageMaker }" />
 <c:set var="cri" value="${dataMap.pageMaker.cri }" />
 <c:set var="boardList" value="${dataMap.boardList }" />
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <head></head>
 
-<title>공지목록</title>
+<title>자유게시판 목록</title>
 
 <body>
+	<c:if test="${from eq 'regist' }">
+		<script>
+			alert("등록되었습니다.");
+			window.opener.location.reload();
+			window.close();
+		</script>
+	</c:if>	
+	
 	 <!-- Main content -->
 	<section class="content-header">
 	  	<div class="container-fluid">
@@ -24,7 +32,7 @@
 	  				<ol class="breadcrumb float-sm-right">
 			        <li class="breadcrumb-item">
 			        	<a href="list.do">
-				        	<i class="fa fa-dashboard"></i>공지사항
+				        	<i class="fa fa-dashboard"></i>자유게시판
 				        </a>
 			        </li>
 			        <li class="breadcrumb-item active">
@@ -92,7 +100,7 @@
 							<td id="boardTitle" style="text-align:left;max-width: 100px; overflow: hidden; 
 												white-space: nowrap; text-overflow: ellipsis;">
 												
-							<a href="javascript:OpenWindow('detail.do?bno=${board.bno }','상세보기',800,700);">
+							<a href="javascript:OpenWindow('detail.do?bno=${board.bno }&from=list','상세보기',800,700);">
 								<span class="col-sm-12 ">${board.title }
 									<c:if test="${board.replycnt ne 0 }">		
 										<span class="nav-item">															

@@ -11,7 +11,7 @@
 			url:"<%=request.getContextPath()%>/getMcode.do?mName=회원목록",
 			type:"get",
 			success:function(menu){
-				window.opener.parent.location.href="/index.do?mCode="+menu.mcode;
+				window.opener.parent.location.href="<%=request.getContextPath()%>/index.do?mCode="+menu.mcode;
 				window.close();				
 			}
 		});		

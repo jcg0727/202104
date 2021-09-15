@@ -4,8 +4,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<body>
-
+<body>	
+	<c:if test="${param.from eq 'modify' }">
+		<script>
+			alert("수정되었습니다.");
+		</script>
+	</c:if>
+	<c:if test="${from eq 'remove' }">
+		<script>
+			alert("삭제되었습니다.");
+			window.opener.location.reload();
+			window.close();
+		</script>
+	</c:if>
+	
   <!-- Content Wrapper. Contains page content -->
   <div  style="max-width:800px;min-width:420px;margin:0 auto;min-height:812px;">
    
@@ -81,7 +93,7 @@
   <!-- /.content-wrapper -->
 
 <form role="form">
-	<input type="hidden" name="nno" value="${notice.nno }" />
+	<input type="hidden" name="nno" value="${notice.nno }"/>
 </form>
 <script>
 
@@ -99,7 +111,8 @@ window.onload=function(){
 	function remove_go(){
 		//alert("click remobe btn");
 		var answer = confirm("정말 삭제하시겠습니까?");
-		if(answer) formObj.attr('action','remove.do').submit();
+		if(answer) formObj.attr({'action':'remove.do',
+								'method' : 'post'}).submit();
 	}
 
 </script>

@@ -110,5 +110,17 @@ public class CommonController {
 		return url;
 	}
 	
+	@RequestMapping("/getMcode")
+	public ResponseEntity<MenuVO> getMcode(String mName) throws Exception{
+		ResponseEntity<MenuVO> entity = null;
+		
+		try {
+			MenuVO menu = menuService.getMenuByMname(mName);
+			entity = new ResponseEntity<MenuVO>(menu,HttpStatus.OK);
+		} catch (SQLException e) {
+			entity = new ResponseEntity<MenuVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return entity;
+	}
 	
 }

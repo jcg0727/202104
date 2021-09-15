@@ -1,7 +1,5 @@
 package kr.or.ddit.command;
 
-import java.util.Date;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.dto.MemberVO;
