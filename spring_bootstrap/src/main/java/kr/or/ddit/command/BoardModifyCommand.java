@@ -5,7 +5,7 @@ import kr.or.ddit.dto.BoardVO;
 public class BoardModifyCommand extends BoardRegistCommand{
 	
 	private int bno;
-
+	
 	public int getBno() {
 		return bno;
 	}

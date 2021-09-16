@@ -122,20 +122,15 @@ function replyRegist_go(){
 			"replytext":replytext	
 	}
 	$.ajax({
-		url:"/replies",
+		url:"<%=request.getContextPath()%>/replies",
 		type:"post",
 		data:JSON.stringify(data),	
 		contentType:'application/json',
-		success:function(data){
-			var result=data.split(',');
-			alert('댓글이 등록되었습니다.');
-			replyPage=result[1]; //페이지이동
-			
-			if(result[0].trim()!="SUCCESS"){			
-				alert("1페이지로 이동합니다.");
-			}
-			getPage("<%=request.getContextPath()%>/reply/list.do?bno="+bno+"&page="+result[1]); //리스트 출력
-			$('#newReplyText').val("");				
+		success:function(page){
+			alert('댓글이 등록되었습니다.\n마지막 페이지로 이동합니다.');
+			getPage("<%=request.getContextPath()%>/replies/"+bno+"/"+page); //리스트 출력
+			replyPage=page;
+			$('#newReplyText').val("");			
 		},
 		error:function(){
 			alert('댓글이 등록을 실패했습니다.');	
@@ -168,14 +163,16 @@ function replyModify_go(){
 	}
 	
 	$.ajax({
-		url:"<%=request.getContextPath()%>/reply/modify.do",
-		type:"post",
+		url:"<%=request.getContextPath()%>/replies/"+rno,
+		type:"put",
+		headers:{
+			"X-HTTP-Method-Override" : "PUT"
+		},
 		data:JSON.stringify(sendData),
 		contentType:"application/json",
 		success:function(result){
 			alert("수정되었습니다.");			
-			getPage("<%=request.getContextPath()%>/reply/list.do?bno=${board.bno}&page="
-					+replyPage);
+			getPage("<%=request.getContextPath()%>/replies/${board.bno}/"+replyPage);
 		},
 		error:function(error){
 			alert('수정 실패했습니다.');		
@@ -192,11 +189,15 @@ function replyRemove_go(){
 	//alert(rno);
 	
 	$.ajax({
-		url:"<%=request.getContextPath()%>/reply/remove.do?rno="+rno+"&page="+replyPage+"&bno=${board.bno}",
-		type:"get",
+		url:"<%=request.getContextPath()%>/replies/${board.bno}/"+rno+"/"+replyPage,
+		type:"delete",
+		headers:{
+			"X-HTTP-Method-Override" : "DELETE"
+		},
+			
 		success:function(page){
 			alert("삭제되었습니다.");
-			getPage("<%=request.getContextPath()%>/reply/list.do?bno=${board.bno}&page="+page);
+			getPage("<%=request.getContextPath()%>/replies/${board.bno}/"+page);
 			replyPage=page;
 		},
 		error:function(error){
