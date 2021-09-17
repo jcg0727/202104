@@ -64,7 +64,7 @@ public class PdsController {
 	}
 	
 	@RequestMapping(value = "/regist", method = RequestMethod.POST, produces="text/plain;charset=utf-8")
-	public String regist(PdsRegistCommand registReq, RedirectAttributes rttr) throws Exception{
+	public String regist(PdsRegistCommand registReq, HttpServletRequest request, RedirectAttributes rttr) throws Exception{
 		
 		String url = "redirect:/pds/list.do";
 		
@@ -72,7 +72,9 @@ public class PdsController {
 		
 		List<AttachVO> attachList = GetAttachesAsMultpartFiles.save(registReq.getUploadFile(), fileUploadPath);
 		
-		pds.setTitle(HTMLInputFilter.htmlSpecialChars(pds.getTitle()));
+		//pds.setTitle(HTMLInputFilter.htmlSpecialChars(pds.getTitle()));
+		pds.setTitle((String)request.getAttribute("XSStitle"));
+		
 		pds.setAttachList(attachList);
 		
 		service.regist(pds);
@@ -134,7 +136,7 @@ public class PdsController {
 	}
 	
 	@RequestMapping("/modify")
-	public String modifyPOST(PdsModifyCommand modifyReq, RedirectAttributes rttr) throws Exception{
+	public String modifyPOST(PdsModifyCommand modifyReq, HttpServletRequest request, RedirectAttributes rttr) throws Exception{
 		String url = "redirect:/pds/detail.do";
 		
 		//파일삭제
@@ -155,8 +157,10 @@ public class PdsController {
 		//PdsVO setting
 		PdsVO pds = modifyReq.toPdsVO();
 		pds.setAttachList(attachList);
-		pds.setTitle(HTMLInputFilter.htmlSpecialChars(pds.getTitle()));
-			
+		
+		//pds.setTitle(HTMLInputFilter.htmlSpecialChars(pds.getTitle()));
+		pds.setTitle((String)request.getAttribute("XSStitle"));
+		
 		//db저장
 		service.modify(pds);
 		

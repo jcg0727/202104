@@ -50,6 +50,7 @@ public class MemberController {
 		Map<String, Object> dataMap = memberService.getMemberList(cri);
 		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
+
 		
 		return mnv;
 	}

@@ -46,12 +46,16 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/regist")
-	public String regist(NoticeRegistCommand regReq, RedirectAttributes rttr) throws Exception{
+	public String regist(NoticeRegistCommand regReq, HttpServletRequest request, RedirectAttributes rttr) throws Exception{
 		
 		String url = "redirect:/notice/list";
 		
 		NoticeVO notice = regReq.toNoticeVO();
-		notice.setTitle(HTMLInputFilter.htmlSpecialChars(notice.getTitle()));
+		
+	
+		//notice.setTitle(HTMLInputFilter.htmlSpecialChars(notice.getTitle()));
+		notice.setTitle((String)request.getAttribute("XSStitle"));
+		
 		noticeService.regist(notice);
 		
 		rttr.addFlashAttribute("from", "regist");
@@ -85,11 +89,12 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value="/modify", method = RequestMethod.POST)
-	public String modifyPost(NoticeModifyCommand modifyReq, RedirectAttributes rttr)throws Exception{
+	public String modifyPost(NoticeModifyCommand modifyReq, HttpServletRequest request, RedirectAttributes rttr)throws Exception{
 		String url = "redirect:/notice/detail.do";
 		
 		NoticeVO notice = modifyReq.toNoticeVO();
-		notice.setTitle(HTMLInputFilter.htmlSpecialChars(notice.getTitle()));
+		//notice.setTitle(HTMLInputFilter.htmlSpecialChars(notice.getTitle()));
+		notice.setTitle((String)request.getAttribute("XSStitle"));
 		
 		noticeService.modify(notice);
 		

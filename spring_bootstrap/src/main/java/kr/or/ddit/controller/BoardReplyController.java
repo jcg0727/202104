@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.josephoconnell.html.HTMLInputFilter;
+
 import kr.or.ddit.command.PageMaker;
 import kr.or.ddit.command.ReplyModifyCommand;
 import kr.or.ddit.command.ReplyRegistCommand;
@@ -64,6 +66,8 @@ public class BoardReplyController {
 		ResponseEntity<String> entity=null;
 		
 		ReplyVO reply = replyReq.toReplyVO();
+		reply.setReplytext(HTMLInputFilter.htmlSpecialChars(reply.getReplytext()));
+		
 		try {
 			service.registReply(reply);
 
@@ -89,6 +93,7 @@ public class BoardReplyController {
 		ResponseEntity<String> entity = null;
 		
 		ReplyVO reply = modifyReq.toReplyVO();
+		reply.setReplytext(HTMLInputFilter.htmlSpecialChars(reply.getReplytext()));
 		reply.setRno(rno);
 		
 		try {

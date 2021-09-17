@@ -54,11 +54,12 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/regist")
-	public String regist(BoardRegistCommand regReq, RedirectAttributes rttr)throws Exception{
+	public String regist(BoardRegistCommand regReq, HttpServletRequest request, RedirectAttributes rttr)throws Exception{
 		String url="redirect:/board/list.do";
 		
 		BoardVO board=regReq.toBoardVO();
-		board.setTitle(HTMLInputFilter.htmlSpecialChars(board.getTitle()));
+		//board.setTitle(HTMLInputFilter.htmlSpecialChars(board.getTitle()));
+		board.setTitle((String)request.getAttribute("XSStitle"));
 		service.regist(board);
 		
 		rttr.addFlashAttribute("from" , "regist");
@@ -97,12 +98,13 @@ public class BoardController {
 	
 
 	@RequestMapping(value="/modify",method=RequestMethod.POST)
-	public String modifyPost(BoardModifyCommand modifyReq,RedirectAttributes rttr) throws Exception{
+	public String modifyPost(BoardModifyCommand modifyReq,HttpServletRequest request, RedirectAttributes rttr) throws Exception{
 		
 		String url = "redirect:/board/detail.do";
 		
 		BoardVO board = modifyReq.toBoardVO();				
-		board.setTitle(HTMLInputFilter.htmlSpecialChars(board.getTitle()));
+		//board.setTitle(HTMLInputFilter.htmlSpecialChars(board.getTitle()));
+		board.setTitle((String)request.getAttribute("XSStitle"));
 		
 		service.modify(board);
 		

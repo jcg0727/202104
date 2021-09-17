@@ -16,8 +16,10 @@
 	<bean id="fileUploadPath" class="java.lang.String">
 		<constructor-arg value="${pds.upload}" />
 	</bean>
-
-	
+	<!-- login.user.log path -->
+	<bean id="loginUserLogSavePath" class="java.lang.String">
+		<constructor-arg value="${login.user.log}"/>
+	</bean> 	
 	<!-- Dao -->
 	<bean id="menuDAO"  class="kr.or.ddit.dao.MenuDAOImpl" p:sqlSession-ref="sqlSession"/>	
 	<bean id = "memberDAO" class="kr.or.ddit.dao.MemberDAOImpl" p:sqlSession-ref="sqlSession"/>	
