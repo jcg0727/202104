@@ -66,9 +66,18 @@ function printData(replyArr,target,templateObject){
 	target.after(html);
 }
 function getPage(pageInfo){	 
-	$.getJSON(pageInfo,function(data){	
-		printData(data.replyList,$('#repliesDiv'),$('#reply-list-template'));
-		printPagination(data.pageMaker,$('ul#pagination'),$('#reply-pagination-template'));
+	
+	$.ajax({
+		url : pageInfo,
+		type : "get",
+		contentType : "application/json",
+		success : function(data){
+			printData(data.replyList,$('#repliesDiv'),$('#reply-list-template'));
+			printPagination(data.pageMaker,$('ul#pagination'),$('#reply-pagination-template'));
+		},
+		error:function(error){
+			AjaxErrorSecurityRedirectHandler(error.status);
+		}
 	});
 }
 Handlebars.registerHelper({
@@ -132,8 +141,8 @@ function replyRegist_go(){
 			replyPage=page;
 			$('#newReplyText').val("");			
 		},
-		error:function(){
-			alert('댓글이 등록을 실패했습니다.');	
+		error:function(error){
+			AjaxErrorSecurityRedirectHandler(error.status);
 		}
 	});
 		
@@ -175,7 +184,7 @@ function replyModify_go(){
 			getPage("<%=request.getContextPath()%>/replies/${board.bno}/"+replyPage);
 		},
 		error:function(error){
-			alert('수정 실패했습니다.');		
+			AjaxErrorSecurityRedirectHandler(error.status);		
 		},
 		complete:function(){
 			$('#modifyModal').modal('hide');
@@ -201,7 +210,7 @@ function replyRemove_go(){
 			replyPage=page;
 		},
 		error:function(error){
-			alert('삭제 실패했습니다.');		
+			AjaxErrorSecurityRedirectHandler(error.status);			
 		},
 		complete:function(){
 			$('#modifyModal').modal('hide');
